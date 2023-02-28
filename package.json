@@ -93,5 +93,8 @@
     "solidity-docgen": "^0.6.0-beta.29",
     "web3": "^1.3.0",
     "yargs": "^17.0.0"
+  },
+  "dependencies": {
+    "hardhat-etherscan": "^1.0.1"
   }
 }
