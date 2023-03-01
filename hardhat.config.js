@@ -6,8 +6,10 @@
 // - COMPILE_VERSION:   compiler version (default: 0.8.9)
 // - COINMARKETCAP:     coinmarkercat api key for USD value in gas report
 
-const fs = require('fs');
-const path = require('path');
+// require('node_modules/@nomiclabs/hardhat-etherscan')
+require('hardhat-deploy')
+const fs = require('fs')
+const path = require('path')
 const argv = require('yargs/yargs')()
   .env('')
   .options({
@@ -46,22 +48,23 @@ const argv = require('yargs/yargs')()
       alias: 'coinmarketcapApiKey',
       type: 'string',
     },
-  }).argv;
+  }).argv
 
-require('@nomiclabs/hardhat-truffle5');
-require("@nomiclabs/hardhat-ethers");
-require('hardhat-ignore-warnings');
-require('hardhat-exposed');
+require('@nomiclabs/hardhat-truffle5')
+require('@nomiclabs/hardhat-ethers')
+require('hardhat-ignore-warnings')
+require('hardhat-exposed')
+require('@nomiclabs/hardhat-etherscan')
 
-require('solidity-docgen');
-require("dotenv").config();
-const { DEPLOYER_KEY } = process.env;
+require('solidity-docgen')
+require('dotenv').config()
+const { DEPLOYER_KEY } = process.env
 
 for (const f of fs.readdirSync(path.join(__dirname, 'hardhat'))) {
-  require(path.join(__dirname, 'hardhat', f));
+  require(path.join(__dirname, 'hardhat', f))
 }
 
-const withOptimizations = argv.gas || argv.compileMode === 'production';
+const withOptimizations = argv.gas || argv.compileMode === 'production'
 
 /**
  * @type import('hardhat/config').HardhatUserConfig
@@ -104,11 +107,36 @@ module.exports = {
       verify: {
         etherscan: {
           apiUrl: 'https://evm.explorer.canto.io',
-          apiKey: process.env.CANTO_API_KEY
-        }
-      }
+          apiKey: {
+            canto: '',
+          },
+        },
+      },
     },
   },
+  etherscan: {
+    // Your API key for Etherscan
+    // Obtain one at https://etherscan.io/
+    apiKey: {
+      canto: '?',
+    },
+    customChains: [
+      {
+        network: 'canto',
+        chainId: 7700,
+        urls: {
+          apiURL: 'https://tuber.build',
+          browserURL: '',
+        },
+        etherscan: {
+          apiKey: {
+            canto: '',
+          },
+        },
+      },
+    ],
+  },
+
   exposed: {
     exclude: [
       'vendor/**/*',
@@ -117,19 +145,19 @@ module.exports = {
     ],
   },
   docgen: require('./docs/config'),
-};
+}
 
 if (argv.gas) {
-  require('hardhat-gas-reporter');
+  require('hardhat-gas-reporter')
   module.exports.gasReporter = {
     showMethodSig: true,
     currency: 'USD',
     outputFile: argv.gasReport,
     coinmarketcap: argv.coinmarketcap,
-  };
+  }
 }
 
 if (argv.coverage) {
-  require('solidity-coverage');
-  module.exports.networks.hardhat.initialBaseFeePerGas = 0;
+  require('solidity-coverage')
+  module.exports.networks.hardhat.initialBaseFeePerGas = 0
 }
