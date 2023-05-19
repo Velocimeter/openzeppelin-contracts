@@ -3,16 +3,16 @@ const hre = require("hardhat");
 async function main() {
   const minDelay = 86400; // 24 hours in seconds
   const proposers = [
-    "0x13eeB8EdfF60BbCcB24Ec7Dd5668aa246525Dc51",
-    "0x3c5Aac016EF2F178e8699D6208796A2D67557fe2",
-    "0x0b776552c1Aef1Dc33005DD25AcDA22493b6615d",
-    "0x53f3B51FD7F327E1Ec4E6eAa3A049149cB2acaD2",
-    "0x78e801136F77805239A7F533521A7a5570F572C8"
+    "0x8041316BfCCec44534F627F03B8c5D03901BcA2B",
+    "0x13cB009A280bd617ec1C9dB97A2584A90F0b23F3",
+    "0xF7a94CCB3048Bdc95f8041D0a2D7bf939479f99d",
+    "0x48DBe7dD2Aa7dbb0d3FbF3677f0B68b2C283DeAF",
+    "0xA42E8966423afAC3F676715d1928CB758aEeCa02"
   ];
   const executors = [
-    "0x13eeB8EdfF60BbCcB24Ec7Dd5668aa246525Dc51"
+    "0x995F09D33AB1DbC68F6AB1f775E518b5fE842fB5"
   ];
-  const admin = "0x13eeB8EdfF60BbCcB24Ec7Dd5668aa246525Dc51";
+  const admin = "0x995F09D33AB1DbC68F6AB1f775E518b5fE842fB5";
 
   const TimelockController = await hre.ethers.getContractFactory("TimelockController");
 
@@ -30,3 +30,14 @@ main().catch((error) => {
   console.error(error);
   process.exitCode = 1;
 });
+
+
+
+
+
+
+
+
+
+
+
