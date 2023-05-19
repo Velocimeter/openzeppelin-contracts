@@ -49,10 +49,13 @@ const argv = require('yargs/yargs')()
   }).argv;
 
 require('@nomiclabs/hardhat-truffle5');
+require("@nomiclabs/hardhat-ethers");
 require('hardhat-ignore-warnings');
 require('hardhat-exposed');
 
 require('solidity-docgen');
+require("dotenv").config();
+const { DEPLOYER_KEY } = process.env;
 
 for (const f of fs.readdirSync(path.join(__dirname, 'hardhat'))) {
   require(path.join(__dirname, 'hardhat', f));
@@ -86,6 +89,24 @@ module.exports = {
     hardhat: {
       blockGasLimit: 10000000,
       allowUnlimitedContractSize: !withOptimizations,
+    },
+    goerli: {
+      chainId: 5,
+      url: process.env.ALCHEMY_GOERLI_URL,
+      gasPrice: 1000000000,
+      accounts: [DEPLOYER_KEY],
+    },
+    canto: {
+      url: process.env.CANTO_RPC_URL,
+      accounts: [process.env.CANTO_PRIVATE_KEY],
+      chainId: 7700,
+      saveDeployments: true,
+      verify: {
+        etherscan: {
+          apiUrl: 'https://evm.explorer.canto.io',
+          apiKey: process.env.CANTO_API_KEY
+        }
+      }
     },
   },
   exposed: {
